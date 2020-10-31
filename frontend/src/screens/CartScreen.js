@@ -29,6 +29,14 @@ const CartScreen = ({ match, location, history }) => {
     history.push('/login?redirect=shipping')
   }
 
+   const renderCartImage = (images) => {
+     if(images.length > 0) {
+       let image = images [0]
+       return `http://localhost:5000/${image}`
+     }
+
+   }
+
   return (
     <Row>
       <Col md={8}>
@@ -43,7 +51,7 @@ const CartScreen = ({ match, location, history }) => {
               <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
+                    <Image src={renderCartImage(item.image)} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
                     <Link to={`/product/${item.product}`}>{item.name}</Link>

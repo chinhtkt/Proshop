@@ -1,11 +1,12 @@
 import asyncHandler from 'express-async-handler'
+import { NULL } from 'node-sass'
 import Product from '../models/productModel.js'
 
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 10
+  const pageSize = 12
   const page = Number(req.query.pageNumber) || 1
 
   const keyword = req.query.keyword
@@ -62,13 +63,14 @@ const createProduct = asyncHandler(async (req, res) => {
     name: 'Sample name',
     price: 0,
     user: req.user._id,
-    image: '/images/sample.jpg',
+    images: 'uploads/sample.jpg',
     brand: 'Sample brand',
     category: 'Sample category',
     countInStock: 0,
     numReviews: 0,
     description: 'Sample description',
   })
+ 
 
   const createdProduct = await product.save()
   res.status(201).json(createdProduct)
@@ -82,7 +84,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     name,
     price,
     description,
-    image,
+    images,
     brand,
     category,
     countInStock,
@@ -94,7 +96,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.name = name
     product.price = price
     product.description = description
-    product.image = image
+    product.image = images
     product.brand = brand
     product.category = category
     product.countInStock = countInStock
@@ -166,3 +168,4 @@ export {
   createProductReview,
   getTopProducts,
 }
+

@@ -1,6 +1,7 @@
 import auth from '../middleware/auth.js'
 import express from 'express'
 import multer from 'multer'
+import path from 'path'
 const router = express.Router()
 
 var storage = multer.diskStorage({
@@ -12,8 +13,8 @@ var storage = multer.diskStorage({
   },
   fileFilter: (req, file, cb) => {
       const ext = path.extname(file.originalname)
-      if (ext !== '.jpg' || ext !== '.png') {
-          return cb(res.status(400).end('only jpg, png are allowed'), false);
+      if (ext !== '.jpg' || ext !== '.png' || ext!== '.jpeg') {
+          return cb(res.status(400).end('only jpg, png, jpeg are allowed'), false);
       }
       cb(null, true)
   }
@@ -38,15 +39,5 @@ router.post("/uploadImage", (req, res) => {
 });
 
 
-router.post("/uploadProduct", auth, (req, res) => {
 
-  //save all the data we got from the client into the DB 
-  const product = new Product(req.body)
-
-  product.save((err) => {
-      if (err) return res.status(400).json({ success: false, err })
-      return res.status(200).json({ success: true })
-  })
-
-});
 export default router

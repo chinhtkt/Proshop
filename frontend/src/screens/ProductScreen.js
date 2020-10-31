@@ -11,7 +11,8 @@ import {
   createProductReview,
 } from '../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
-import ReactImageMagnify from 'react-image-magnify';
+import ProductImage from '../components/ProductImage'
+
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1)
@@ -56,19 +57,7 @@ const ProductScreen = ({ history, match }) => {
     )
   }
 
-  const imageProps = {
-    smallImage: {
-      alt: product.name,
-      isFluidWidth: true,
-      src: product.image
-    },
-    largeImage: {
-      src: product.image,
-      width: 1200,
-      height: 1800
-    },
-    enlargedImageContainerStyle: { background: '#fff', zIndex: 9 }
-  };
+  
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -83,7 +72,7 @@ const ProductScreen = ({ history, match }) => {
           <Meta title={product.name} />
           <Row>
             <Col md={6}>
-            <ReactImageMagnify {...imageProps}  />
+            <ProductImage detail={product} />
 
             </Col>
             <Col md={3}>

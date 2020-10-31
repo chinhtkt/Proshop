@@ -4,11 +4,11 @@ import {PlusCircleOutlined} from '@ant-design/icons';
 import Axios from 'axios'
 function FileUpload(props) {
 
-    const [images, setImages] = useState([])
+    const [Images, setImages] = useState([])
 
 
 
-    const onDrop =(files) => {
+    const onDrop = (files) => {
         let formData = new FormData();
         const config = {
             header: {'content-type': 'multipart/form-data'}
@@ -19,8 +19,8 @@ function FileUpload(props) {
         .then(response => {
             if(response.data.success) {
 
-                setImages([...images, response.data.image])
-                props.refreshFunction([...images, response.data.image])
+                setImages([...Images, response.data.image])
+                props.refreshFunction([...Images, response.data.image])
 
             } else {
                 alert('Failed to save the image')
@@ -29,9 +29,9 @@ function FileUpload(props) {
     }
     const onDelete = (image) => {
 
-        const currentIndex = images.indexOf(image);
+        const currentIndex = Images.indexOf(image);
 
-        let newImages = [...images]
+        let newImages = [...Images]
         newImages.splice(currentIndex,1)
         setImages(newImages)
         props.refreshFunction(newImages)
@@ -46,6 +46,8 @@ function FileUpload(props) {
             onDrop={onDrop}
             multiple={false}
             maxSize={800000000}
+            
+            
             >
              {({getRootProps, getInputProps}) =>(
 
@@ -53,7 +55,10 @@ function FileUpload(props) {
                  {...getRootProps()}
                  >
                      <input {...getInputProps()} />
-                     <PlusCircleOutlined type="plus" style={{fontSize: '3rem'}} />
+                     <PlusCircleOutlined type="plus" style={{fontSize: '3rem'}}/>
+                     
+                     
+                     
 
 
                  </div>
@@ -61,10 +66,11 @@ function FileUpload(props) {
             </Dropzone>
             <div style={{ display:'flex', width:'350px', height:'240px', overflowX:'scroll' }}>
 
-                {images.map((image, index)=>(
+                {Images.map((image, index)=>(
 
                     <div onClick={() => onDelete(image)}>
                     <img style={{ minWidth: '300px', width: '300px', height: '240px' }} src={`http://localhost:5000/${image}`} alt={`productImg-${index}`} />
+                    
                 </div>
 
                 ))}

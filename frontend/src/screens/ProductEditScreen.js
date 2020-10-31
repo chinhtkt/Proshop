@@ -39,7 +39,7 @@ const ProductEditScreen = ({ match, history }) => {
       dispatch({ type: PRODUCT_UPDATE_RESET })
       history.push('/admin/productlist')
     } else {
-      if (!product.name || product._id !== productId) {
+      if (!product.name ||  product._id !== productId) {
         dispatch(listProductDetails(productId))
       } else {
         setName(product.name)
@@ -52,6 +52,9 @@ const ProductEditScreen = ({ match, history }) => {
       }
     }
   }, [dispatch, history, productId, product, successUpdate])
+
+
+  
 
   /*const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
@@ -146,6 +149,11 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={uploadFileHandler}
               ></Form.File>*/}
               <FileUpload refreshFunction={updateImages} />
+              <Form.Control
+                placeholder='Image url goes here :)'
+                value={images}
+                onChange={(e) => setImages(e.target.value)}
+              ></Form.Control>
               {uploading && <Loader />}
             </Form.Group>
 
