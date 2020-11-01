@@ -81,6 +81,9 @@ const ProductEditScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
+    if (!name || !price || !images || !brand || !category || !description || !countInStock) {
+      return alert('Fill all the field!')
+    }
     dispatch(
       updateProduct({
         _id: productId,
@@ -93,6 +96,7 @@ const ProductEditScreen = ({ match, history }) => {
         countInStock,
       })
     )
+    
   }
 
   const updateImages = (newImages) => {
