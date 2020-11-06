@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Row, Col,Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listOrders } from '../actions/orderActions'
 
 const OrderListScreen = ({ history }) => {
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleChange = e => {
+    setSearchTerm(e.target.value);
+  };
+
   const dispatch = useDispatch()
 
   const orderList = useSelector((state) => state.orderList)
@@ -23,9 +29,28 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo])
 
+  const results = !searchTerm
+    ? orders
+    : orders.filter(order =>
+        order.user.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+      );
+
   return (
     <>
+    <Row className='align-items-center'>
+    <Col>
       <h1>Orders</h1>
+      </Col>
+      <Form>
+      <Form.Control
+        type='text'
+        placeholder='Search Order Users Name'
+        className='mr-sm-2'
+        value={searchTerm}
+        onChange={handleChange}
+      ></Form.Control>
+    </Form>
+      </Row>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -44,7 +69,7 @@ const OrderListScreen = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {results.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.user && order.user.name}</td>

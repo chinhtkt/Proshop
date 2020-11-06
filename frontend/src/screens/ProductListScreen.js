@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col,Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -12,7 +12,17 @@ import {
 } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
+
+
 const ProductListScreen = ({ history, match }) => {
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleChange = e => {
+    setSearchTerm(e.target.value);
+  };
+
+  
+
   const pageNumber = match.params.pageNumber || 1
 
   const dispatch = useDispatch()
@@ -44,9 +54,8 @@ const ProductListScreen = ({ history, match }) => {
     if (!userInfo || !userInfo.isAdmin) {
       history.push('/login')
     }
-
     if (successCreate) {
-      history.push(`/admin/product/${createdProduct._id}/edit`)
+      history.push(`/admin/product/${createdProduct._id}/create`)
     } else {
       dispatch(listProducts('', pageNumber))
     }
@@ -58,8 +67,8 @@ const ProductListScreen = ({ history, match }) => {
     successCreate,
     createdProduct,
     pageNumber,
-  ])
-
+  ])  
+  
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
       dispatch(deleteProduct(id))
@@ -70,17 +79,33 @@ const ProductListScreen = ({ history, match }) => {
     dispatch(createProduct())
   }
 
+  const results = !searchTerm
+    ? products
+    : products.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+      );
+
   return (
     <>
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>
         </Col>
+        <Form>
+      <Form.Control
+        type='text'
+        placeholder='Search Products name'
+        className='mr-sm-2 ml-sm-5'
+        value={searchTerm}
+        onChange={handleChange}
+      ></Form.Control>
+    </Form>
         <Col className='text-right'>
           <Button className='my-3' onClick={createProductHandler}>
             <i className='fas fa-plus'></i> Create Product
           </Button>
         </Col>
+        
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
@@ -104,7 +129,7 @@ const ProductListScreen = ({ history, match }) => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {results.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>

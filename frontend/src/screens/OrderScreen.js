@@ -85,6 +85,14 @@ const OrderScreen = ({ match, history }) => {
     dispatch(deliverOrder(order))
   }
 
+
+  const renderfirstImage = (images) => {
+    if(images.length > 0) {
+      let image = images [0]
+      return `http://localhost:5000/${image}`
+    }
+  }
+
   return loading ? (
     <Loader />
   ) : error ? (
@@ -143,7 +151,7 @@ const OrderScreen = ({ match, history }) => {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={item.image}
+                            src={renderfirstImage(item.image)}
                             alt={item.name}
                             fluid
                             rounded

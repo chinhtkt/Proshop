@@ -35,24 +35,6 @@ const Product = ({ product }) => {
         <Card.Text as='h3'>${product.price}</Card.Text>
       </Card.Body>
     </Card>
-    /*<Link to={`/product/${product._id}`}>
-    <Card
-    hoverable={true}
-    cover={<ImageSlider images={product.image} />}
-    >
-
-      <Meta 
-      title={product.name}
-      description={`$${product.price}`}
-      />
-
-     <Rating
-            value={product.rating}
-            text={`${product.numReviews} reviews`}
-          />
-
-    </Card>
-    </Link>*/
 
   )
 }

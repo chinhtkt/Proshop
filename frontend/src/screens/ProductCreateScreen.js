@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
@@ -10,7 +9,8 @@ import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import FileUpload from '../components/FileUpload'
 
-const ProductEditScreen = ({ match, history }) => {
+
+const ProductCreateScreen = ({ match, history, props }) => {
   const productId = match.params.id
 
   const [name, setName] = useState('')
@@ -38,17 +38,9 @@ const ProductEditScreen = ({ match, history }) => {
       dispatch({ type: PRODUCT_UPDATE_RESET })
       history.push('/admin/productlist')
     } else {
-      if (!product.name ||  product._id !== productId) {
+      if (product._id !== productId) {
         dispatch(listProductDetails(productId))
-      } else {
-        setName(product.name)
-        setPrice(product.price)
-        setImages(product.image)
-        setBrand(product.brand)
-        setCategory(product.category)
-        setCountInStock(product.countInStock)
-        setDescription(product.description)
-      }
+      } 
     }
   }, [dispatch, history, productId, product, successUpdate])
 
@@ -83,18 +75,20 @@ const ProductEditScreen = ({ match, history }) => {
     if (!name || !price || !images || !brand || !category || !description || !countInStock) {
       return alert('Fill all the field!')
     }
+
+    
     dispatch(
-      updateProduct({
-        _id: productId,
-        name,
-        price,
-        images,
-        brand,
-        category,
-        description,
-        countInStock,
-      })
-    )
+        updateProduct({
+          _id: productId,
+          name,
+          price,
+          images,
+          brand,
+          category,
+          description,
+          countInStock,
+        })
+      )
     
   }
 
@@ -108,7 +102,7 @@ const ProductEditScreen = ({ match, history }) => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Product</h1>
+        <h1>Create Product</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? (
@@ -201,7 +195,7 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <Button type='submit' variant='primary'>
-              Update
+              Create
             </Button>
           </Form>
         )}
@@ -210,4 +204,4 @@ const ProductEditScreen = ({ match, history }) => {
   )
 }
 
-export default ProductEditScreen
+export default ProductCreateScreen

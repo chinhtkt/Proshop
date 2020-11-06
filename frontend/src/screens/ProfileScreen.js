@@ -8,6 +8,12 @@ import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
 
 const ProfileScreen = ({ location, history }) => {
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleChange = e => {
+    setSearchTerm(e.target.value);
+  };
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -51,6 +57,11 @@ const ProfileScreen = ({ location, history }) => {
     }
   }
 
+  const results = !searchTerm
+    ? orders
+    : orders.filter(order =>
+        order.createdAt.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+      );
   return (
     <Row>
       <Col md={3}>
@@ -111,7 +122,20 @@ const ProfileScreen = ({ location, history }) => {
         )}
       </Col>
       <Col md={9}>
+      <Row className='align-items-center'>
+        <Col>
         <h2>My Orders</h2>
+        </Col>
+        <Form>
+      <Form.Control
+        type='text'
+        placeholder='Search Orders Date'
+        className='mr-sm-2'
+        value={searchTerm}
+        onChange={handleChange}
+      ></Form.Control>
+    </Form>
+        </Row>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
@@ -129,7 +153,7 @@ const ProfileScreen = ({ location, history }) => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {results.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
