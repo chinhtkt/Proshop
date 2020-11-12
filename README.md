@@ -11,3 +11,4 @@ This project allows me to improve the frontend and I confirm this is not my proj
 [MERN eCommerce From Scratch](https://www.udemy.com/course/mern-ecommerce) 
 
 
+Here is the video for improvement i had made https://drive.google.com/file/d/1Ridc1uyMvr7ZH7fH0w9HAdA8LtNJ_WBx/view?usp=sharing
