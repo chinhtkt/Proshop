@@ -193,11 +193,12 @@ const ProductEditScreen = ({ match, history }) => {
             <Form.Group controlId='description'>
               <Form.Label>Description</Form.Label>
               <Form.Control
-                type='text'
+                as="textarea"
+                rows={3}
                 placeholder='Enter description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Button type='submit' variant='primary'>

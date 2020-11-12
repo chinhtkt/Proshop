@@ -8,6 +8,7 @@ import FormContainer from '../components/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import FileUpload from '../components/FileUpload'
+import {deleteProduct} from '../actions/productActions'
 
 
 const ProductCreateScreen = ({ match, history, props }) => {
@@ -96,10 +97,14 @@ const ProductCreateScreen = ({ match, history, props }) => {
     setImages(newImages)
   }
 
+
+  const deleteHandler = (id) => {
+      dispatch(deleteProduct(id))
+    }
   return (
     <>
-      <Link to='/admin/productlist' className='btn btn-light my-3'>
-        Go Back
+      <Link to='/admin/productlist' className='btn btn-light my-3' onClick={() => deleteHandler(product._id)}>
+        Cancel
       </Link>
       <FormContainer>
         <h1>Create Product</h1>
@@ -187,13 +192,13 @@ const ProductCreateScreen = ({ match, history, props }) => {
             <Form.Group controlId='description'>
               <Form.Label>Description</Form.Label>
               <Form.Control
-                type='text'
+                as="textarea"
+                rows={3}
                 placeholder='Enter description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
-
             <Button type='submit' variant='primary'>
               Create
             </Button>

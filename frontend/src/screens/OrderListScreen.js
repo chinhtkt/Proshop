@@ -7,7 +7,13 @@ import Loader from '../components/Loader'
 import { listOrders } from '../actions/orderActions'
 
 const OrderListScreen = ({ history }) => {
+  /* 
+dung usestate tạo ra state searchTerm để lưu dữ liệu từ đầu vào tìm kiếm vào mỗi lần xảy ra sự kiện thay đổi. 
+Phương thức handleChange lấy đối tượng sự kiện làm đối số và đặt giá trị hiện tại của biểu mẫu thành trạng thái searchTerm 
+bằng cách sử dụng phương thức setSearchTerm do phương thức React.useState cung cấp.
 
+Search cho product :D
+ */
   const [searchTerm, setSearchTerm] = useState("");
   const handleChange = e => {
     setSearchTerm(e.target.value);
@@ -29,6 +35,11 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo])
 
+   /*  
+phương thức bộ lọc được áp dụng cho mảng product trả về một mảng mới theo điều kiện được trả về trong mỗi lần lặp.
+
+Search cho product :D
+*/
   const results = !searchTerm
     ? orders
     : orders.filter(order =>
@@ -43,6 +54,7 @@ const OrderListScreen = ({ history }) => {
       </Col>
       <Form>
       <Form.Control
+      /* form tạo searchbar của boosttrap */
         type='text'
         placeholder='Search Order Users Name'
         className='mr-sm-2'
@@ -69,6 +81,7 @@ const OrderListScreen = ({ history }) => {
             </tr>
           </thead>
           <tbody>
+            {/*gắn hàm result ở trên cùng rồi map nó cho product để render ra */}
             {results.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>

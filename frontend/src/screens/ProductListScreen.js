@@ -15,7 +15,13 @@ import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 
 const ProductListScreen = ({ history, match }) => {
+/* 
+dung usestate tạo ra state searchTerm để lưu dữ liệu từ đầu vào tìm kiếm vào mỗi lần xảy ra sự kiện thay đổi. 
+Phương thức handleChange lấy đối tượng sự kiện làm đối số và đặt giá trị hiện tại của biểu mẫu thành trạng thái searchTerm 
+bằng cách sử dụng phương thức setSearchTerm do phương thức React.useState cung cấp.
 
+Search cho product :D
+ */
   const [searchTerm, setSearchTerm] = useState("");
   const handleChange = e => {
     setSearchTerm(e.target.value);
@@ -78,7 +84,11 @@ const ProductListScreen = ({ history, match }) => {
   const createProductHandler = () => {
     dispatch(createProduct())
   }
+/*  
+phương thức bộ lọc được áp dụng cho mảng product trả về một mảng mới theo điều kiện được trả về trong mỗi lần lặp.
 
+Search cho product :D
+*/
   const results = !searchTerm
     ? products
     : products.filter(product =>
@@ -93,6 +103,7 @@ const ProductListScreen = ({ history, match }) => {
         </Col>
         <Form>
       <Form.Control
+      /* form tạo searchbar của boosttrap */
         type='text'
         placeholder='Search Products name'
         className='mr-sm-2 ml-sm-5'
@@ -105,7 +116,6 @@ const ProductListScreen = ({ history, match }) => {
             <i className='fas fa-plus'></i> Create Product
           </Button>
         </Col>
-        
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
@@ -125,9 +135,11 @@ const ProductListScreen = ({ history, match }) => {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
-                <th></th>
+                <th>ACTION</th>
               </tr>
             </thead>
+
+            {/*gắn hàm result ở trên cùng rồi map nó ra product để render ra */}
             <tbody>
               {results.map((product) => (
                 <tr key={product._id}>
